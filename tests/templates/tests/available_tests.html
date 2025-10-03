@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Available Tests</h3>
+  <ul class="list-group">
+    {% for test in tests %}
+      <li class="list-group-item d-flex justify-content-between">
+        {{ test.title }}
+        <a href="{% url 'take_test' test.id %}" class="btn btn-sm btn-success">Take Test</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

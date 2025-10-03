@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card mx-auto p-4" style="max-width:700px;">
+  <h3>Create Question</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    {% if form.instance.question_type == 'mcq' or not form.instance.pk %}
+      <h5>Choices</h5>
+      {{ formset.management_form }}
+      {% for form_choice in formset %}
+        <div class="row mb-2">
+          <div class="col-9">{{ form_choice.text }}</div>
+          <div class="col-3">{{ form_choice.is_correct }} Correct</div>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary w-100 mt-3">Save Question</button>
+  </form>
+</div>
+
+{% endblock %}

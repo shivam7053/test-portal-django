@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h3>{{ test.title }}</h3>
+  <form method="post">
+    {% csrf_token %}
+    {% for q in test.questions.all %}
+      <div class="mb-3">
+        <strong>{{ forloop.counter }}. {{ q.text }}</strong>
+        {% if q.question_type == "mcq" %}
+          {% for choice in q.choices.all %}
+            <div>
+              <input type="radio" name="question_{{ q.id }}" value="{{ choice.id }}">
+              {{ choice.text }}
+            </div>
+          {% endfor %}
+        {% else %}
+          <textarea name="question_{{ q.id }}" class="form-control"></textarea>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Submit Test</button>
+  </form>
+</div>
+{% endblock %}

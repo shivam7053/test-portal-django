@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Result for {{ student_test.test.title }}</h3>
+  <p><strong>Score:</strong> {{ student_test.score }}%</p>
+</div>
+{% endblock %}
