@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import TestForm, QuestionForm, ChoiceFormSet
-from .models import Test, Question, Choice, UserTest
+from .models import Test, Question, Choice,StudentTest, StudentAnswer
 from django.forms import modelformset_factory
-from .models import StudentTest, StudentAnswer
+
 
 
 @login_required
@@ -109,3 +109,10 @@ def test_result(request, student_test_id):
     student_test.save()
 
     return render(request, 'tests/test_result.html', {'student_test': student_test})
+
+
+@login_required
+def test_results(request):
+    """Display all test results for the logged-in user"""
+    results = StudentTest.objects.filter(student=request.user).order_by('-taken_at')
+    return render(request, 'tests/test_results.html', {'results': results})

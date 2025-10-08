@@ -11,4 +11,7 @@ urlpatterns = [
     path('available/', views.available_tests, name='available_tests'),
     path('take/<int:test_id>/', views.take_test, name='take_test'),
     path('result/<int:student_test_id>/', views.test_result, name='test_result'),
+    # Student test results
+    path('results/', views.test_results, name='test_results'),
+
 ]

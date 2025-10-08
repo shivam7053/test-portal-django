@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}My Test Results{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">My Test Results</h2>
+  {% if user_tests %}
+    <table class="table table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>Test</th>
+          <th>Score</th>
+          <th>Date Taken</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for test in user_tests %}
+        <tr>
+          <td>{{ test.test.title }}</td>
+          <td>{{ test.score|default:"N/A" }}%</td>
+          <td>{{ test.created_at|date:"d M Y, H:i" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No test results found yet.</p>
+  {% endif %}
+{% endblock %}

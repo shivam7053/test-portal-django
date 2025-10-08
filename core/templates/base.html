@@ -9,12 +9,64 @@
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Test Portal</a>
+      <a class="navbar-brand fw-bold" href="{% url 'home' %}">Test Portal</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+
+          <!-- Public / Student Links -->
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'available_tests' %}active{% endif %}" href="{% url 'available_tests' %}">Available Tests</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'test_results' %}active{% endif %}" href="{% url 'test_results' %}">My Results</a>
+          </li>
+
+
+          <!-- Admin / Teacher Links -->
+          {% if user.is_staff %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Teacher
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="adminDropdown">
+              <li><a class="dropdown-item" href="{% url 'create_test' %}">Create Test</a></li>
+              <li><a class="dropdown-item" href="{% url 'create_question' %}">Add Question</a></li>
+              <li><a class="dropdown-item" href="{% url 'test_list' %}">My Tests</a></li>
+            </ul>
+          </li>
+          {% endif %}
+
+          <!-- Authentication Links -->
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout ({{ user.username }})</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">Register</a>
+          </li>
+          {% endif %}
+
+        </ul>
+      </div>
     </div>
   </nav>
 
+  <!-- Main Content -->
   <div class="container mt-4">
     {% block content %}
     {% endblock %}
